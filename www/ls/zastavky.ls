@@ -27,15 +27,9 @@ drawZeroLine = (ctx) ->
         ctx.lineTo canvasWidth,Math.round canvasY y
     ctx.stroke!
 
-
-ig.drawZastavky = ->
-    (err, stops) <~ d3.json "../data/processed/stops-median.json"
+drawTable = (stops) ->
     base = d3.select \body .append \ul
         ..attr \class \zastavky
-    # stops .= slice 21, 22
-
-
-    values = []
 
     base.selectAll \li .data stops .enter!append \li
         ..append \span
@@ -52,7 +46,6 @@ ig.drawZastavky = ->
                 ctx.strokeStyle = lineColors index
                 isDrawn = no
                 for median, xPosition in medians
-                    values.push median
                     x = canvasX xPosition
                     y = canvasY median
                     if median is null
@@ -67,10 +60,10 @@ ig.drawZastavky = ->
                         ctx.lineTo x, y
                 ctx.stroke! if isDrawn
 
-    values.sort (a, b) -> a - b
-    values .= filter -> it isnt null
-    console.log values
-    console.log values[0], values[values.length - 1]
-    console.log values[Math.round values.length * 0.1], values[Math.round values.length * 0.9]
-    console.log values[Math.round values.length * 0.05], values[Math.round values.length * 0.95]
-    console.log values[Math.round values.length * 0.01], values[Math.round values.length * 0.99]
+
+
+
+ig.drawZastavky = ->
+    (err, stops) <~ d3.json "../data/processed/stops-median.json"
+    drawTable stops
+
