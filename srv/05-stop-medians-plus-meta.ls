@@ -20,13 +20,14 @@ getStops = (cb) ->
 stops_assoc = {}
 for stop in stops
     stops_assoc[stop.zastavka] = stop
+    stops_assoc["#{stop.zastavka}-#{stop.sloupek}"] = stop
 
 
 output = []
 valid = 0
 all = 0
 for zastavka, sloupky of medians
-    meta = stops_assoc[zastavka]
+    meta = stops_assoc["#zastavka-1"] || stops_assoc[zastavka]
     if meta
         valid++
         output_zastavka = {}
@@ -36,21 +37,32 @@ for zastavka, sloupky of medians
             ..lon = meta.lon
             ..sloupky = []
         output.push output_zastavka
-        values = 0
+        values = measurements = 0
         for data, sloupek in sloupky
             continue if data is null
             output_sloupek = {}
                 ..id = sloupek
                 ..medians = data
-            output_zastavka.sloupky.push output_sloupek
+            sloupek_meta = stops_assoc["#zastavka-#sloupek"]
+            localValues = localMeasurements = 0
             for median in data
-                values += median if median
+                localValues += median if median
+                localMeasurements++
+            values += localValues
+            measurements += localMeasurements
+            if sloupek_meta
+                output_sloupek
+                    ..lat = sloupek_meta.lat
+                    ..lon = sloupek_meta.lon
+                    ..median_avg = localValues / localMeasurements
 
-        output_zastavka.median_sum = values
+            output_zastavka.sloupky.push output_sloupek
+
+        output_zastavka.median_avg = values / measurements
 
     all++
 console.log all, valid
-output.sort (a, b) -> b.median_sum - a.median_sum
+output.sort (a, b) -> b.median_avg - a.median_avg
 
 fs.writeFile "#__dirname/../data/processed/stops-median.json" JSON.stringify output#, 1, 4
 

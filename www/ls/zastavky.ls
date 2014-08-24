@@ -69,28 +69,35 @@ drawMap = (stops) ->
         *   'map'
         *   fadeAnimation: false,
             minZoom: 6,
-            maxZoom: 14
+            maxZoom: 16
             maxBounds: [[50.356 14.128], [49.693 15.381]]
     map
         ..setView [50.08, 14.4], 12
         ..addLayer L.tileLayer do
-            "http://service.ihned.cz/tiles/urban/{z}/{x}/{y}.png"
-            zIndex: 1 attribution: '<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cz/" target = "_blank">CC BY-NC-SA 3.0 CZ</a> IHNED.cz, mapové data &copy; <a target="_blank" href="http://www.openstreetmap.org">OpenStreetMap.org</a>, <a target="_blank" href="http://www.infoprovsechny.cz/request/aktuln_verze_gtfs#incoming-988">dopravní data</a> <a target="_blank" href="http://dpp.cz">DPP Praha</a>'
-    reasonableMax = stops[Math.round stops.length * 0.02].median_sum
-    absoluteMax = stops[0].median_sum
+            "http://hnmaps.blob.core.windows.net/tiles-desaturated/{z}/{x}/{y}.png"
+            zIndex: 1 opacity: 0.7 attribution: '<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cz/" target = "_blank">CC BY-NC-SA 3.0 CZ</a> IHNED.cz, mapové data &copy; <a target="_blank" href="http://www.openstreetmap.org">OpenStreetMap.org</a>, <a target="_blank" href="http://www.infoprovsechny.cz/request/aktuln_verze_gtfs#incoming-988">dopravní data</a> <a target="_blank" href="http://dpp.cz">DPP Praha</a>'
+
+    reasonableMax = stops[Math.round stops.length * 0.02].median_avg
+    absoluteMax = stops[0].median_avg
 
     mapColors = d3.scale.linear!
         ..domain [0 to reasonableMax by reasonableMax / 6] ++ [absoluteMax]
         ..range <[#ffffb2 #fed976 #feb24c #fd8d3c #fc4e2a #e31a1c #b10026 #b10026]>
 
-    for stop in stops
-        markerColor = mapColors stop.median_sum
+    addMarker = (stopOrSloupek) ->
+        markerColor = mapColors stopOrSloupek.median_avg
+        className = if stopOrSloupek.id % 2 then 'even' else 'odd'
         icon = L.divIcon do
-            *   html: "<span style='background: #markerColor' title='#{stop.name}'></span>"
+            *   html: "<span style='border-color: #markerColor' title='#{stopOrSloupek.name}'></span>"
                 iconSize: [15 15]
-                className: "station-marker"
-        new L.marker [stop.lat, stop.lon], {icon}
+                className: "station-marker #className"
+        new L.marker [stopOrSloupek.lat, stopOrSloupek.lon], {icon}
             ..addTo map
+
+    for stop in stops
+        if stop.sloupky[0].lat
+            for sloupek in stop.sloupky
+                addMarker sloupek if sloupek and sloupek.lat
 
 ig.drawZastavky = ->
     (err, stops) <~ d3.json "../data/processed/stops-median.json"

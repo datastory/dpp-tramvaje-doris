@@ -39,14 +39,27 @@ body
         bottom 0px
         width calc(100% \- 410px)
         float left
+        background black
         .station-marker
             width 15px
             height 15px
             span
                 display block
-                width 15px
-                height 15px
-                border-radius 50%
-                border 1px solid #888
-                opacity 0.8
+                width 0px
+                height 0px
+                border 11px solid
+
+            &.even span
+                border-bottom-width 15px
+                border-top 0px none
+                border-top-color transparent !important
+                border-left-color transparent !important
+                border-right-color transparent !important
+            &.odd span
+                border-top-width 15px
+                border-bottom 0px none
+                border-bottom-color transparent !important
+                border-left-color transparent !important
+                border-right-color transparent !important
+
 
