@@ -1,6 +1,16 @@
+@import colors
+@import prefixes
+@import basics
+
 body
     margin 0px
     ul.zastavky
+        position absolute
+        top 0px
+        bottom 0px
+        right 0px
+        width 400px
+        border-left 1px solid #aaa
         list-style-type none
         margin 0px
         padding 0px
@@ -12,12 +22,31 @@ body
             width 100%
             border-bottom 1px solid #aaa
             .name
+                padding-left 10px
+                padding-top 7px
                 float left
                 display block
-                width 200px
+                width 190px
                 text-overflow ellipsis
 
             canvas
                 float left
                 // background yellow
+
+    #map
+        position absolute
+        top 0px
+        bottom 0px
+        width calc(100% \- 400px)
+        float left
+        .station-marker
+            width 15px
+            height 15px
+            span
+                display block
+                width 15px
+                height 15px
+                border-radius 50%
+                border 1px solid #888
+                opacity 0.8
 
