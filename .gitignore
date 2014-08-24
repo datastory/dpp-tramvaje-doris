@@ -6,3 +6,9 @@ data/processed
 node_modules
 *.sublime-project
 *.sublime-workspace
+/www/screen.css
+/www/external.css
+/www/external.js
+/www/js/*
+!/www/js/_loadExternal.js
+/www/script.js

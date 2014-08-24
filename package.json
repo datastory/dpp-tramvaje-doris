@@ -14,6 +14,9 @@
   "license": "BSD",
   "dependencies": {
     "async": "~0.9.0",
-    "csv-parse": "0.0.6"
+    "csv-parse": "0.0.6",
+    "request": "^2.40.0",
+    "stylus": "^0.48.1",
+    "uglify-js": "^2.4.15"
   }
 }

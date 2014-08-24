@@ -26,7 +26,7 @@ reader.on \data (line) ->
         console.log i
     zpozdeni = zpozdeni.split ";"
         .map (parseInt _, 10)
-        .sort!
+        .sort (a, b) -> a - b
     return if zpozdeni.length < 5
     median = zpozdeni[Math.round zpozdeni.length / 2]
     return if isNaN median
