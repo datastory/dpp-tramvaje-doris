@@ -6,6 +6,7 @@ lineColors = d3.scale.ordinal!
     ..range <[#e41a1c #377eb8 #4daf4a #984ea3 ]>
 
 maxY = 1200_seconds
+map = null
 
 canvasY = d3.scale.sqrt!
     ..domain [-60 maxY]
@@ -35,6 +36,8 @@ drawTable = (stops) ->
         ..append \span
             ..attr \class \name
             ..html (.name)
+        ..on \click (stop) ->
+            map.setView [stop.lat, stop.lon], 16
         ..each (stop) ->
             canvas = document.createElement \canvas
             @appendChild canvas
@@ -65,7 +68,7 @@ drawMap = (stops) ->
     mapElement = document.createElement \div
     mapElement.setAttribute \id \map
     document.body.appendChild mapElement
-    map = L.map do
+    map := L.map do
         *   'map'
         *   fadeAnimation: false,
             minZoom: 6,
