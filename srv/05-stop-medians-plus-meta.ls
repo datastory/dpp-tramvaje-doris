@@ -36,16 +36,21 @@ for zastavka, sloupky of medians
             ..lon = meta.lon
             ..sloupky = []
         output.push output_zastavka
-
+        values = 0
         for data, sloupek in sloupky
             continue if data is null
             output_sloupek = {}
                 ..id = sloupek
                 ..medians = data
             output_zastavka.sloupky.push output_sloupek
+            for median in data
+                values += median if median
+
+        output_zastavka.median_sum = values
 
     all++
 console.log all, valid
+output.sort (a, b) -> b.median_sum - a.median_sum
 
 fs.writeFile "#__dirname/../data/processed/stops-median.json" JSON.stringify output#, 1, 4
 

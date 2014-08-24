@@ -1,7 +1,7 @@
 require! fs
 require! parse: "csv-parse"
 
-minuteBinning = 5_minutes
+minuteBinning = 10_minutes
 hoursInDay = 24_hours
 binsInHour = 60_minutes / minuteBinning
 

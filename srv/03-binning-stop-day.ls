@@ -1,7 +1,7 @@
 require! fs
 require! parse: "csv-parse"
 
-minuteBinning = 5_minutes
+minuteBinning = 10_minutes
 bins = {}
 
 stream = fs.createReadStream "#__dirname/../data/processed/usable.csv"
