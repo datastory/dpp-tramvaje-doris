@@ -1,3 +1,8 @@
 data/DP201207.mdb
 data/NP201207.mdb
 data/orezane/
+data/processed
+.ipynb_checkpoints
+node_modules
+*.sublime-project
+*.sublime-workspace
