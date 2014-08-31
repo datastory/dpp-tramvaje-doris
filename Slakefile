@@ -5,15 +5,14 @@ option 'currentfile' 'Latest file that triggered the save' 'FILE'
 
 externalScripts =
     \http://service.ihned.cz/js/d3/v3.4.8.min.js
-    \http://service.ihned.cz/js/async.js
     \http://service.ihned.cz/js/leaflet/v0.7.0.min.js
     ...
 
 externalStyles =
     ...
 
-externalData =
-    style: "#__dirname/www/screen.css"
+externalData = {}
+    # style: "#__dirname/www/screen.css"
 
 preferScripts = <[ postInit.js _loadData.js ../data.js init.js _loadExternal.js]>
 deferScripts = <[ ]>
