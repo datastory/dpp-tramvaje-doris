@@ -4,65 +4,6 @@
 
 body
     margin 0px
-    ul.zastavky
-        position absolute
-        top 0px
-        bottom 0px
-        right 0px
-        width 410px
-        border-left 1px solid #aaa
-        list-style-type none
-        margin 0px
-        padding 0px
-        float left
-        overflow auto
-        li
-            padding 0px
-            float left
-            clear left
-            width 100%
-            border-bottom 1px solid #aaa
-            &:hover
-                background #eee
-                cursor pointer
-            .name
-                padding-left 10px
-                padding-top 7px
-                float left
-                display block
-                width 190px
-                text-overflow ellipsis
-
-            canvas
-                float left
-
-    #map
-        position absolute
-        top 0px
-        bottom 0px
-        width calc(100% \- 410px)
-        float left
-        background black
-        .station-marker
-            width 15px
-            height 15px
-            span
-                display block
-                width 0px
-                height 0px
-                border 11px solid
-
-            &.even span
-                border-bottom-width 15px
-                border-top 0px none
-                border-top-color transparent !important
-                border-left-color transparent !important
-                border-right-color transparent !important
-            &.odd span
-                border-top-width 15px
-                border-bottom 0px none
-                border-bottom-color transparent !important
-                border-left-color transparent !important
-                border-right-color transparent !important
-
-
+@import zastavka
+@import zastavky
+@import map

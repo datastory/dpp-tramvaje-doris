@@ -87,25 +87,27 @@ drawMap = (stops) ->
         ..domain [0 to reasonableMax by reasonableMax / 6] ++ [absoluteMax]
         ..range <[#ffffb2 #fed976 #feb24c #fd8d3c #fc4e2a #e31a1c #b10026 #b10026]>
 
-    addMarker = (stopOrSloupek, name) ->
-        markerColor = mapColors stopOrSloupek.median_avg
-        className = if stopOrSloupek.id % 2 then 'even' else 'odd'
-        name += " " + if stopOrSloupek.id % 2 then '(do centra)' else '(z centra)'
+    addMarker = (sloupek, stop) ->
+        markerColor = mapColors sloupek.median_avg
+        className = if sloupek.id % 2 then 'even' else 'odd'
+        name = stop.name
+        name += " - med. zpoždění #{ig.humanZpozdeni Math.round sloupek.median_avg}"
+        name += " " + if sloupek.id % 2 then '(do centra)' else '(z centra)'
         icon = L.divIcon do
             *   html: "<span style='border-color: #markerColor' title='#{name}'></span>"
                 iconSize: [15 15]
                 className: "station-marker #className"
-        new L.marker [stopOrSloupek.lat, stopOrSloupek.lon], {icon}
+        new L.marker [sloupek.lat, sloupek.lon], {icon}
             ..addTo map
+            ..on \click -> ig.drawZastavka stop, sloupek
 
     for stop in stops
         if stop.sloupky[0].lat
             for sloupek in stop.sloupky
                 if sloupek and sloupek.lat
-                    addMarker sloupek, stop.name
+                    addMarker sloupek, stop
 
 ig.drawZastavky = ->
     (err, stops) <~ d3.json "../data/processed/stops-median.json"
     drawMap stops
     drawTable stops
-
