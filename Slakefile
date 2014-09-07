@@ -15,8 +15,8 @@ externalData = {}
     # style: "#__dirname/www/screen.css"
 
 preferScripts = <[ postInit.js _loadData.js ../data.js init.js _loadExternal.js]>
-deferScripts = <[ ]>
-develOnlyScripts = <[ _loadData.js _loadExternal.js base.js]>
+deferScripts = <[ base.js ]>
+develOnlyScripts = <[ _loadData.js _loadExternal.js]>
 gzippable = <[ ]>
 build-styles = (options = {}, cb) ->
     (err, [external, local]) <~ async.parallel do

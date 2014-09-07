@@ -5,10 +5,10 @@ xValues = 24 * 60 / minuteBinning
 lineColors = d3.scale.ordinal!
     ..range <[#e41a1c #377eb8 #4daf4a #984ea3 ]>
 
-maxY = 1200_seconds
+maxY = 240_seconds
 map = null
 
-canvasY = d3.scale.sqrt!
+canvasY = d3.scale.linear!
     ..domain [-60 maxY]
     ..range [canvasHeight, 0]
 canvasX = d3.scale.linear!

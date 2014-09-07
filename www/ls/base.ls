@@ -1,1 +1,1 @@
-window.ig = {}
+ig.drawZastavky!
