@@ -4,8 +4,6 @@ option 'testFile' 'File in (/lib or /test) to run test on' 'FILE'
 option 'currentfile' 'Latest file that triggered the save' 'FILE'
 
 externalScripts =
-    \http://service.ihned.cz/js/d3/v3.4.8.min.js
-    \http://service.ihned.cz/js/leaflet/v0.7.0.min.js
     ...
 
 externalStyles =
