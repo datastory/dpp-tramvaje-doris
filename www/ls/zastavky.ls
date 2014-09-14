@@ -109,5 +109,9 @@ drawMap = (stops) ->
 
 ig.drawZastavky = ->
     (err, stops) <~ d3.json "../data/processed/stops-median.json"
+    window.ig.stops = {}
+    for stop in stops
+        [zastavkaId] = stop.id.slice 1 .split /[NZ]/
+        window.ig.stops[zastavkaId] = stop
     drawMap stops
     drawTable stops

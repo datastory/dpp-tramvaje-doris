@@ -28,11 +28,14 @@ prujezdyDayLegend = container.append \div
 window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
     container.classed \active yes
     heading.html zastavka.name
-    [zastavkaId] = zastavka.id.slice 1 .split "N"
+    [zastavkaId] = zastavka.id.slice 1 .split /[NZ]/
     sloupek ?= zastavka.sloupky[0]
     (err, prujezdy) <~ d3.csv "../data/processed/sloupky/#zastavkaId-#{sloupek.id}.csv", ->
         for field in <[time day lnno porno zpozdeni]>
             it[field] = parseInt it[field], 10
+        it.fileDay =
+            | it.time < 2_hours * 3600 => it.day - 1
+            | otherwise                => it.day
         it
     prujezdy.length
     lines = getLnList prujezdy
@@ -49,7 +52,6 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
             lnno = parseInt @value, 10
             window.ig.drawZastavka zastavka, sloupek, lnno
     selectedPrujezdy = prujezdy.filter (.lnno == selectedLineNo)
-    console.log selectedPrujezdy.length
     prujezdyScatter
         ..html ''
         ..selectAll \div.time .data [0 to 24] .enter!append \div
@@ -66,6 +68,9 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
             ..classed \threeminute -> it.zpozdeni > 180
             ..classed \fourminute -> it.zpozdeni > 240
             ..attr \title -> "linka #{it.lnno} pořadí #{it.porno} dne #{it.day}. 7. Zpoždění #{ig.humanZpozdeni it.zpozdeni}, plánovaný příjezd #{humanTime it.time}"
+            ..on \click ->
+                console.log it.fileDay, it.lnno, it.porno, it.time
+                window.ig.displayLinka it.fileDay, it.lnno, it.porno, it.time
         ..0.0.scrollLeft = prujezdyScatter.0.0.offsetWidth * 1
 
 ig.humanZpozdeni = ->
@@ -76,7 +81,7 @@ ig.humanZpozdeni = ->
     else
         "#{seconds}s"
 
-humanTime = ->
+ig.humanTime = humanTime = ->
     hours = Math.floor it / 3600
     minutes = Math.floor (it % 3600) / 60
     seconds = it % 60

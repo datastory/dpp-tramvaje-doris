@@ -1,0 +1,74 @@
+.tramvaj
+    position absolute
+    top 0px
+    left -100%
+    bottom 0px
+    width calc(100% \- 410px)
+    background white
+    z-index 5001
+    &.active
+        left 0px
+    .closebtn
+        position absolute
+        top 14px
+        left 14px
+        width 30px
+        height 30px
+        text-align center
+        border 1px solid black
+        line-height @height
+        background #eee
+        &:hover
+            background #ddd
+            cursor pointer
+    h1
+        margin-left 80px
+        margin-top 20px
+
+    .prujezdyGraph
+        position absolute
+        top 95px
+        left 15px
+        height 600px
+        width calc(100% \- 30px)
+        overflow-x auto
+        overflow-y hidden
+        svg
+            path
+                stroke black
+                stroke-width 1px
+                fill none
+            line
+                shape-rendering crispEdges
+                stroke #ddd
+                stroke-width 1px
+                &.zero
+                    stroke #9
+            .axis-y
+                text
+                    font-size 0.8em
+            .axis-x
+                rect
+                    fill transparent
+                text
+                    fill #9
+                .datapoint
+                    fill white
+                g.selected
+                    text
+                        fill red
+                    rect
+                        fill red
+                        fill-opacity 0.1
+                    .datapoint
+                        fill red
+                g:hover
+                    rect
+                        fill black
+                        fill-opacity 0.1
+                    text
+                        fill black
+                    .datapoint
+                        fill black
+
+
