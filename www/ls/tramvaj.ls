@@ -19,7 +19,8 @@ window.ig.displayLinka = (day, lnno, porno, time) ->
             line[field] = parseInt line[field], 10
         line.stop = window.ig.stops[line.zastavka]
         line
-    data .= filter (.stop)
+    data .= filter -> it.stop && (it.zpozdeni || it.zpozdeni == 0)
+    data.sort (a, b) -> a.time - b.time
     scrollXIndex = null
     for datum, index in data
         if datum.time == time
