@@ -99,7 +99,9 @@ drawMap = (stops) ->
                 className: "station-marker #className"
         new L.marker [sloupek.lat, sloupek.lon], {icon}
             ..addTo map
-            ..on \click -> ig.drawZastavka stop, sloupek
+            ..on \click ->
+                console.log stop, sloupek
+                ig.drawZastavka stop, sloupek
 
     for stop in stops
         if stop.sloupky[0].lat
@@ -115,3 +117,11 @@ ig.drawZastavky = ->
         window.ig.stops[zastavkaId] = stop
     drawMap stops
     drawTable stops
+    <~ setTimeout _, 500
+    linky =
+        *   day: 26 lnno: 24 porno: 41 time: 39433
+        *   day: 26 lnno: 18 porno: 1 time: 39492
+    window.ig.displayLinky linky
+    for stop in stops
+        if stop.name == "Albertov"
+            ig.drawZastavka stop, stop.sloupky.0, [18, 24]

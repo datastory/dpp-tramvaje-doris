@@ -7,6 +7,15 @@ container.append \div
 heading = container.append \h1
 lineSelector = container.append \select
     ..attr \class \lineSelector
+    ..attr \multiple yes
+
+closeLinesSelector = container.append \button
+    ..attr \class 'closeLinesSelector off'
+    ..on \click ->
+        selectedLinky = []
+        d3.selectAll \.multi-group.selected .each -> selectedLinky.push it
+        window.ig.displayLinky selectedLinky
+    ..html "Zobrazit vybrané"
 
 prujezdyScatter = container.append \div
     ..attr \class \prujezdyScatter
@@ -37,10 +46,11 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
             | it.time < 2_hours * 3600 => it.day - 1
             | otherwise                => it.day
         it
-    prujezdy.length
     lines = getLnList prujezdy
     if !selectedLineNo
-        selectedLineNo := lines[0].lnno
+        selectedLineNo := [lines[0].lnno]
+    if 'Array' !=typeof! selectedLineNo
+        selectedLineNo := [selectedLineNo]
     lineSelector
         ..html ''
         ..selectAll \option .data lines .enter!append \option
@@ -49,16 +59,21 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
             ..attr \selected ->
                 if selectedLineNo == it.lnno then "selected" else void
         ..on \change ->
-            lnno = parseInt @value, 10
-            window.ig.drawZastavka zastavka, sloupek, lnno
-    selectedPrujezdy = prujezdy.filter (.lnno == selectedLineNo)
+            values = for item in @querySelectorAll 'option:checked'
+                parseInt item.value, 10
+            window.ig.drawZastavka zastavka, sloupek, values
+    selectedPrujezdy = prujezdy.filter (.lnno in selectedLineNo)
+
     prujezdyScatter
         ..html ''
         ..selectAll \div.time .data [0 to 24] .enter!append \div
             ..attr \class \time
             ..style \left -> "#{xScale it * 3600}%"
             ..html -> "#{it}:00"
-        ..selectAll \div.group .data selectedPrujezdy .enter!append \div
+    prujezdyItems = prujezdyScatter.selectAll \div.group .data selectedPrujezdy .enter!append \div
+    if selectedLineNo.length == 1
+        closeLinesSelector.classed \off yes
+        prujezdyItems
             ..attr \class \group
             ..style \width ->
                 "#{xScale timeStart + it.zpozdeni}%"
@@ -69,9 +84,23 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
             ..classed \fourminute -> it.zpozdeni > 240
             ..attr \title -> "linka #{it.lnno} pořadí #{it.porno} dne #{it.day}. 7. Zpoždění #{ig.humanZpozdeni it.zpozdeni}, plánovaný příjezd #{humanTime it.time}"
             ..on \click ->
-                console.log it.fileDay, it.lnno, it.porno, it.time
                 window.ig.displayLinka it.fileDay, it.lnno, it.porno, it.time
-        ..0.0.scrollLeft = prujezdyScatter.0.0.offsetWidth * 1
+    else
+        prujezdyItems
+            ..attr \class -> "multi-group mg-#{selectedLineNo.indexOf it.lnno}"
+            ..style \left -> "#{xScale it.time}%"
+            ..style \top -> "#{yScale it.day}%"
+            ..attr \title -> "linka #{it.lnno} pořadí #{it.porno} dne #{it.day}. 7. Zpoždění #{ig.humanZpozdeni it.zpozdeni}, plánovaný příjezd #{humanTime it.time}"
+            ..on \click ->
+                i = @className.indexOf 'selected'
+                if i == -1
+                    closeLinesSelector.classed \off off
+                    @className += " selected"
+                else
+                    @className .= substr 0, i
+
+
+    prujezdyScatter.0.0.scrollLeft = prujezdyScatter.0.0.offsetWidth * 1
 
 ig.humanZpozdeni = ->
     minutes = Math.floor it / 60

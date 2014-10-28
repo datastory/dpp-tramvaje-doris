@@ -9,6 +9,8 @@ prujezdyGraphContainer = container.append \div
     ..attr \class \prujezdyGraph
 prujezdyGraph = prujezdyGraphContainer.append \svg
 
+window.ig.displayLinky = (lines) ->
+    ...
 
 window.ig.displayLinka = (day, lnno, porno, time) ->
     container.classed \active yes
