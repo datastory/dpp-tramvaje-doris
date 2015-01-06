@@ -55,8 +55,9 @@ window.ig.displayLinky = (linky) ->
             stop.actualDifference = stop.plannedDifference + stop.zpozdeni
     segmentWidth = 50
     height = 400
+    allPoints = [].concat ...dataToUse
     y = d3.scale.linear!
-        ..domain d3.extent firstData.map (.zpozdeni)
+        ..domain d3.extent allPoints.map (.zpozdeni)
         ..range [height, 0]
     x = (d, i) ->
         if d is null then i = firstData.length
