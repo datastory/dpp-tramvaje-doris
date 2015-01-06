@@ -117,11 +117,11 @@ ig.drawZastavky = ->
         window.ig.stops[zastavkaId] = stop
     drawMap stops
     drawTable stops
-    <~ setTimeout _, 500
+    <~ setTimeout _, 1
     linky =
         *   day: 26 lnno: 24 porno: 41 time: 39433
         *   day: 26 lnno: 18 porno: 1 time: 39492
     window.ig.displayLinky linky
-    for stop in stops
-        if stop.name == "Albertov"
-            ig.drawZastavka stop, stop.sloupky.0, [18, 24]
+    # for stop in stops
+    #     if stop.name == "Albertov"
+    #         ig.drawZastavka stop, stop.sloupky.0, [18, 24]

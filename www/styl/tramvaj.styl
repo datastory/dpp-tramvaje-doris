@@ -34,10 +34,17 @@
         overflow-x auto
         overflow-y hidden
         svg
-            path
-                stroke black
-                stroke-width 1px
-                fill none
+            .data
+                path.dataline
+                    stroke black
+                    stroke-width 1px
+                    fill none
+                path.datapoint
+                    fill white
+                    stroke black
+            .data.planned
+                stroke #666
+                stroke-dasharray 5 5
             line
                 shape-rendering crispEdges
                 stroke #ddd
@@ -52,8 +59,7 @@
                     fill transparent
                 text
                     fill #9
-                .datapoint
-                    fill white
+
                 g.selected
                     text
                         fill red
