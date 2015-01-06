@@ -66,8 +66,8 @@ window.ig.displayLinky = (linky) ->
         ..y (d) -> y d.plannedDifference
 
     prujezdyGraph
-        ..attr \width x null
-        ..attr \height height + 200
+        ..attr \width 30 + x null
+        ..attr \height height + 400
 
     yAxis = for s in [60 to y.domain!.1 by 60]
         s
@@ -118,11 +118,26 @@ window.ig.displayLinky = (linky) ->
             ..classed \selected (d, i) -> i is mainScrollXIndex
             ..append \text
                 ..attr \transform (d, i) -> "translate(#{segmentWidth / 2 + 10}, #{height}) rotate(50)"
-                ..text -> "#{it.stop.name}"
+                ..text (d, i) ->
+                    names = dataToUse.map -> it[i].stop.name
+                    prevName = null
+                    names .= filter ->
+                        if it == prevName
+                            no
+                        else
+                            prevName := it
+                            yes
+                    "#{names.join ' | '}"
             ..append \text
                 ..attr \transform (d, i) -> "translate(#{segmentWidth / 2 - 10}, #{height}) rotate(50)"
                 ..attr \dx 13
-                ..text -> "#{ig.humanTime it.time} | #{ig.humanZpozdeni it.zpozdeni}"
+                ..text (d, i) ->
+                    if dataToUse.length == 1
+                        "#{ig.humanTime d.time} | #{ig.humanZpozdeni d.zpozdeni}"
+                    else
+                        zpozdenis = dataToUse.map -> ig.humanZpozdeni it[i].zpozdeni
+                        zpozdenis.join " | "
+
 
             ..append \rect
                 ..attr \x 0

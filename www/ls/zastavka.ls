@@ -103,12 +103,14 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
     prujezdyScatter.0.0.scrollLeft = prujezdyScatter.0.0.offsetWidth * 1
 
 ig.humanZpozdeni = ->
-    minutes = Math.floor it / 60
-    seconds = it % 60
+    abs = Math.abs it
+    sign = if it > 0 then "+" else "-"
+    minutes = Math.floor abs / 60
+    seconds = abs % 60
     if minutes > 0
-        "#{minutes}m #{seconds}s"
+        "#{sign}#{minutes}m #{seconds}s"
     else
-        "#{seconds}s"
+        "#{sign}#{seconds}s"
 
 ig.humanTime = humanTime = ->
     hours = Math.floor it / 3600
