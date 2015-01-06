@@ -30,6 +30,11 @@ window.ig.displayLinky = (linky) ->
     firstData = data.0
     mainScrollXIndex = null
     dataToUse = for dataset, index in data
+        dataset .= filter (item, itemIndex) ->
+            return true if dataset[itemIndex + 1] is void
+            return true if item.time == linky[index].time
+            item.stop.id != dataset[itemIndex + 1].stop.id
+
         scrollXIndex = getScrollXIndex dataset, linky[index].time
         if index == 0
             mainScrollXIndex = scrollXIndex
