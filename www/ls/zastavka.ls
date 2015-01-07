@@ -57,7 +57,7 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
             ..html -> "#{it.lnno} (#{it.count} průjezdů)"
             ..attr \value (.lnno)
             ..attr \selected ->
-                if selectedLineNo == it.lnno then "selected" else void
+                if it.lnno in selectedLineNo then "selected" else void
         ..on \change ->
             values = for item in @querySelectorAll 'option:checked'
                 parseInt item.value, 10
