@@ -14,6 +14,7 @@ closeLinesSelector = container.append \button
     ..on \click ->
         selectedLinky = []
         d3.selectAll \.multi-group.selected .each -> selectedLinky.push it
+        console.log selectedLinky
         window.ig.displayLinky selectedLinky
     ..html "Zobrazit vybrané"
 

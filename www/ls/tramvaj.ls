@@ -42,22 +42,29 @@ window.ig.displayLinky = (linky) ->
         if linky.length == 1
             dataset
         else
+            startIndex = scrollXIndex - stopsToDisplayInMultilineMode
             start = Math.max do
-                scrollXIndex - stopsToDisplayInMultilineMode
+                startIndex
                 0
             dataset.slice start, scrollXIndex + 1
+    minLength = Math.min ...dataToUse.map (.length)
+    for dataset, index in dataToUse
+        if dataset.length > minLength
+            dataToUse[index] .= slice dataset.length - minLength
+
     if linky.length > 1
         mainScrollXIndex = stopsToDisplayInMultilineMode
         firstData = dataToUse.0
     for dataset in dataToUse
         for stop, index in dataset
+            # console.log index, firstData[index]
             stop.plannedDifference = stop.time - firstData[index].time
             stop.actualDifference = stop.plannedDifference + stop.zpozdeni
     segmentWidth = 50
     height = 400
     allPoints = [].concat ...dataToUse
     y = d3.scale.linear!
-        ..domain d3.extent allPoints.map (.zpozdeni)
+        ..domain d3.extent allPoints.map (.actualDifference)
         ..range [height, 0]
     x = (d, i) ->
         if d is null then i = firstData.length
