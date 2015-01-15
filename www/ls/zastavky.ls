@@ -1,4 +1,4 @@
-canvasWidth = 400
+canvasWidth = 380
 canvasHeight = 90
 minuteBinning = 10_minutes
 xValues = 24 * 60 / minuteBinning
