@@ -22,6 +22,7 @@ window.ig.displayLinky = (linky) ->
                 for field in <[zastavka sloupek time zpozdeni]>
                     line[field] = parseInt line[field], 10
                 line.stop = window.ig.stops[line.zastavka]
+                line.time -= line.zpozdeni
                 line
         data .= filter -> it.stop && (it.zpozdeni || it.zpozdeni == 0)
         data.sort (a, b) -> a.time - b.time

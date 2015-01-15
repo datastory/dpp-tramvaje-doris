@@ -43,6 +43,7 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
     (err, prujezdy) <~ d3.csv "../data/processed/sloupky/#zastavkaId-#{sloupek.id}.csv", ->
         for field in <[time day lnno porno zpozdeni]>
             it[field] = parseInt it[field], 10
+        it.time -= it.zpozdeni
         it.fileDay =
             | it.time < 2_hours * 3600 => it.day - 1
             | otherwise                => it.day
@@ -78,7 +79,7 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
             ..attr \class \group
             ..style \width ->
                 "#{xScale timeStart + it.zpozdeni}%"
-            ..style \left -> "#{xScale it.time - it.zpozdeni}%"
+            ..style \left -> "#{xScale it.time}%"
             ..style \top -> "#{yScale it.day}%"
             ..classed \twominute -> it.zpozdeni > 120
             ..classed \threeminute -> it.zpozdeni > 180
@@ -89,7 +90,7 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
     else
         prujezdyItems
             ..attr \class -> "multi-group mg-#{selectedLineNo.indexOf it.lnno}"
-            ..style \left -> "#{xScale it.time}%"
+            ..style \left -> "#{xScale it.time + it.zpozdeni}%"
             ..style \top -> "#{yScale it.day}%"
             ..attr \title -> "linka #{it.lnno} pořadí #{it.porno} dne #{it.day}. 7. Zpoždění #{ig.humanZpozdeni it.zpozdeni}, plánovaný příjezd #{humanTime it.time}"
             ..on \click ->

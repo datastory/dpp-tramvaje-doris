@@ -124,4 +124,4 @@ ig.drawZastavky = ->
     # window.ig.displayLinky linky
     # for stop in stops
     #     if stop.name == "Albertov"
-    #         ig.drawZastavka stop, stop.sloupky.0, [18, 24]
+    #         ig.drawZastavka stop, stop.sloupky.0, [18]
