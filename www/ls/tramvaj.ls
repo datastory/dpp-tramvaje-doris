@@ -27,7 +27,6 @@ window.ig.displayLinky = (linky) ->
         data.sort (a, b) -> a.time - b.time
         cb null, data
 
-    firstData = data.0
     mainScrollXIndex = null
     dataToUse = for dataset, index in data
         dataset .= filter (item, itemIndex) ->
@@ -40,13 +39,17 @@ window.ig.displayLinky = (linky) ->
             mainScrollXIndex = scrollXIndex
         scrollXIndexOffset = mainScrollXIndex - scrollXIndex
         if linky.length == 1
-            dataset
+            start = Math.max do
+                scrollXIndex - 20
+                0
+            dataset.slice start, scrollXIndex + 20
         else
             startIndex = scrollXIndex - stopsToDisplayInMultilineMode
             start = Math.max do
                 startIndex
                 0
             dataset.slice start, scrollXIndex + 1
+    firstData = dataToUse.0
     minLength = Math.min ...dataToUse.map (.length)
     for dataset, index in dataToUse
         if dataset.length > minLength

@@ -85,7 +85,7 @@ window.ig.drawZastavka = (zastavka, sloupek, selectedLineNo) ->
             ..classed \fourminute -> it.zpozdeni > 240
             ..attr \title -> "linka #{it.lnno} pořadí #{it.porno} dne #{it.day}. 7. Zpoždění #{ig.humanZpozdeni it.zpozdeni}, plánovaný příjezd #{humanTime it.time}"
             ..on \click ->
-                window.ig.displayLinka it.fileDay, it.lnno, it.porno, it.time
+                window.ig.displayLinky [{day: it.fileDay, lnno: it.lnno, porno: it.porno, time: it.time}]
     else
         prujezdyItems
             ..attr \class -> "multi-group mg-#{selectedLineNo.indexOf it.lnno}"
