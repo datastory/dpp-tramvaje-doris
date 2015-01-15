@@ -1,4 +1,4 @@
-canvasWidth = 200
+canvasWidth = 400
 canvasHeight = 90
 minuteBinning = 10_minutes
 xValues = 24 * 60 / minuteBinning
@@ -117,7 +117,7 @@ ig.drawZastavky = ->
         window.ig.stops[zastavkaId] = stop
     drawMap stops
     drawTable stops
-    <~ setTimeout _, 1
+    # <~ setTimeout _, 1
     # linky =
     #     *   day: 2 lnno: 18 porno: 4 time: 19295
     #     *   day: 2 lnno: 24 porno: 1 time: 19655
