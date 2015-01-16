@@ -13,7 +13,7 @@ stopsToDisplayInMultilineMode = 20
 window.ig.displayLinky = (linky) ->
     container.classed \active yes
     {day, time} = linky.0
-    heading.html "#day. 7. linka #{linky.map (.lnno) .join ', '} tramvaj #{linky.map (.porno) .join ', '}"
+    heading.html "#day. 7. linka <b>#{linky.map (.lnno) .join '</b>, <b>'}</b> tramvaj #{linky.map (.porno) .join ', '}"
     prujezdyGraph.html ""
     (err, data) <~ async.map linky, ({day, lnno, porno}, cb) ->
         (err, data) <~ d3.csv do
@@ -67,9 +67,11 @@ window.ig.displayLinky = (linky) ->
     segmentWidth = 50
     height = 400
     allPoints = [].concat ...dataToUse
+    extent = d3.extent allPoints.map (.actualDifference)
+    if extent.0 > 0 then extent.0 = 0
     y = d3.scale.linear!
-        ..domain d3.extent allPoints.map (.actualDifference)
-        ..range [height, 0]
+        ..domain extent
+        ..range [height - 18, 0]
     x = (d, i) ->
         if d is null then i = firstData.length
         i * segmentWidth + 50
