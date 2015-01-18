@@ -55,10 +55,7 @@ window.ig.displayLinky = (linky) ->
     for dataset, index in dataToUse
         if dataset.length > minLength
             dataToUse[index] .= slice dataset.length - minLength
-
-    if linky.length > 1
-        mainScrollXIndex = stopsToDisplayInMultilineMode
-        firstData = dataToUse.0
+    mainScrollXIndex = stopsToDisplayInMultilineMode
     for dataset in dataToUse
         for stop, index in dataset
             # console.log index, firstData[index]
